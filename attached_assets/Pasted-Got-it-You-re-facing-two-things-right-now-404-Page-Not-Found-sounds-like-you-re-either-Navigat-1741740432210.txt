@@ -1,0 +1,154 @@
+Got it! You're facing two things right now:
+
+404 Page Not Found – sounds like you're either:
+Navigating to a route you didn't define in your router.
+Or trying to redirect to a page that's missing.
+You want to redirect to the homepage after adding a property, and see the new property along with the others.
+Let’s fix both, step by step! 💪
+
+✅ Step 1: Fix the 404 Page Not Found
+This typically happens when:
+
+The route isn't registered in your router.
+You're navigating to a wrong route path.
+The component isn't set up correctly.
+Example React Router DOM v6+ Setup:
+tsx
+Copy
+Edit
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate
+} from 'react-router-dom';
+
+import HomePage from './pages/HomePage';
+import AddPropertyPage from './pages/AddPropertyPage';
+import NotFoundPage from './pages/NotFoundPage';
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/add-property" element={<AddPropertyPage />} />
+
+        {/* 404 Catch-all */}
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+    </Router>
+  );
+}
+
+export default App;
+✅ Make sure the route you're navigating to exists.
+✅ Catch-all * route should point to your NotFoundPage component.
+
+✅ Step 2: Redirect to Homepage After Adding a Property
+Once a user successfully adds a property, you can navigate programmatically to the homepage.
+
+Example using useNavigate() (React Router DOM v6+)
+tsx
+Copy
+Edit
+import { useNavigate } from 'react-router-dom';
+
+const AddPropertyPage = () => {
+  const navigate = useNavigate();
+
+  const handleSubmit = async (formValues) => {
+    try {
+      // Call your function to add a property (Firestore add)
+      await addProperty(formValues);
+
+      // ✅ Redirect to home after success
+      navigate('/');
+    } catch (error) {
+      console.error('Failed to add property:', error);
+    }
+  };
+
+  return (
+    <div>
+      {/* Your form with onSubmit calling handleSubmit */}
+    </div>
+  );
+};
+✅ After successful submission, navigate('/') brings the user back to the homepage.
+
+✅ Step 3: Show Newly Added Property on the Homepage
+Assuming your homepage fetches properties from Firestore, you’ll want to refresh the data after you add a new property.
+
+Here's how it works:
+You navigate to the homepage /.
+The HomePage component loads and fetches properties from Firestore.
+Example HomePage fetching properties:
+tsx
+Copy
+Edit
+import { useEffect, useState } from 'react';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../firebase'; // Your initialized Firestore instance
+
+const HomePage = () => {
+  const [properties, setProperties] = useState([]);
+
+  const fetchProperties = async () => {
+    const querySnapshot = await getDocs(collection(db, 'properties'));
+    const propertiesData = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    setProperties(propertiesData);
+  };
+
+  useEffect(() => {
+    fetchProperties();
+  }, []);
+
+  return (
+    <div>
+      <h1>All Properties</h1>
+      {properties.length === 0 && <p>No properties found.</p>}
+      {properties.map((property) => (
+        <div key={property.id}>
+          <h2>{property.title}</h2>
+          <p>{property.description}</p>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default HomePage;
+✅ This runs fetchProperties() whenever you navigate to /, so after adding a property and redirecting, the list updates automatically.
+
+✅ Optional: Force Refresh or Pass State on Navigation
+If you want to ensure it refreshes (in case caching/memoization is messing it up):
+
+tsx
+Copy
+Edit
+navigate('/', { replace: true });
+Or pass state:
+
+tsx
+Copy
+Edit
+navigate('/', { state: { newPropertyAdded: true } });
+And inside your HomePage, you can check that state to trigger a fetchProperties().
+
+✅ Summary of Steps You Need to Do
+Task	✅ Done?
+1. Register all pages in your router (home, add, not found)	✅
+2. Use navigate('/') after adding a property	✅
+3. Ensure your homepage fetches properties from Firestore	✅
+4. (Optional) Pass navigation state or trigger refresh	Optional
+✅ Example Navigation Flow
+User goes to /add-property.
+Fills out form and submits.
+handleSubmit calls addProperty().
+After success → navigate('/').
+Homepage loads → fetchProperties() runs.
+User sees their property!

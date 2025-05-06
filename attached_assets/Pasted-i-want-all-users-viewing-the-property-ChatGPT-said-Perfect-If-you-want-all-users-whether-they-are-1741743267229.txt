@@ -1,0 +1,108 @@
+i want all users viewing the property
+ChatGPT said:
+Perfect! If you want all users (whether they are logged in or not) to view properties, you just need to update your Firestore security rules to allow public read access.
+
+✅ Here’s the Updated Rule You Need
+Inside the /properties/{propertyId} match, change:
+
+plaintext
+Copy
+Edit
+allow read: if request.auth != null;
+➡️ To:
+
+plaintext
+Copy
+Edit
+allow read: if true;
+✅ Final Version of Your Rules with Public Read Access
+plaintext
+Copy
+Edit
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ✅ Admin check function (as you already have it)
+    function isAdmin() {
+      return request.auth != null && 
+        (
+          request.auth.token.email.matches('.*@sakany.com$') || 
+          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.displayName.matches('.*\\|admin.*')
+        );
+    }
+
+    // ✅ Users collection
+    match /users/{userId} {
+      // Admins can read/write any user document
+      allow read, write: if isAdmin();
+
+      // Users can read/write their own user document
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+
+      // Users can create their own user document (on registration)
+      allow create: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // ✅ Properties collection (Public Read Access)
+    match /properties/{propertyId} {
+      // Admins can do anything on properties
+      allow read, write: if isAdmin();
+
+      // ✅ Public read - anyone can view properties, even unauthenticated users
+      allow read: if true;
+
+      // ✅ Users can create a property, but only if they set their ownerId to their UID
+      allow create: if request.auth != null &&
+                    request.auth.uid == request.resource.data.ownerId;
+
+      // ✅ Users can update/delete their own property
+      allow update, delete: if request.auth != null &&
+                            request.auth.uid == resource.data.ownerId;
+    }
+  }
+}
+✅ What Happens Now
+Action	Who Can Do It?
+Read properties	✅ Anyone, even if not signed in
+Create property	✅ Authenticated users with ownerId = uid
+Update/delete property	✅ Property owner only
+Admin full control	✅ Admins can do anything
+✅ Next Steps
+1. Save and Publish the Updated Rules
+Go to Firestore Rules in your Firebase Console.
+Paste the updated rules.
+Click Publish.
+2. On Your Homepage (Frontend)
+You no longer need to wait for the user to be authenticated to fetch properties. You can just call:
+
+javascript
+Copy
+Edit
+import { collection, onSnapshot } from 'firebase/firestore';
+
+useEffect(() => {
+  const unsubscribe = onSnapshot(
+    collection(db, 'properties'),
+    (snapshot) => {
+      const propertiesData = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setProperties(propertiesData);
+    },
+    (error) => {
+      console.error('Error fetching properties:', error.message);
+    }
+  );
+
+  return () => unsubscribe();
+}, []);
+✅ Users will instantly see the property listings on the homepage, whether logged in or not.
+
+✅ TL;DR
+✅ You updated the Firestore read rule to allow read: if true;.
+✅ All users, logged in or not, can view the properties.
+✅ Frontend no longer needs auth checks just to fetch properties.
+Let me know if you want me to help on the homepage component or confirm your Firestore console setup!

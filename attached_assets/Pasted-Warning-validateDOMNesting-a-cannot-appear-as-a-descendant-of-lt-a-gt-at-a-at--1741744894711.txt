@@ -1,0 +1,34 @@
+Warning: validateDOMNesting(...): <a> cannot appear as a descendant of &lt;a&gt;.
+    at a
+    at https://b6f31ca8-fbe1-4a08-9d4f-16ce56411541-00-1yy8zotsoxe5e.sisko.replit.dev/@fs/home/runner/workspace/SakanyMatch/node_modules/.vite/deps/chunk-CPFL7ZFD.js?v=edc0a4ec:41:13
+    at https://b6f31ca8-fbe1-4a08-9d4f-16ce56411541-00-1yy8zotsoxe5e.sisko.replit.dev/@fs/home/runner/workspace/SakanyMatch/node_modules/.vite/deps/chunk-DKHUMOWT.js?v=edc0a4ec:52:11
+    at https://b6f31ca8-fbe1-4a08-9d4f-16ce56411541-00-1yy8zotsoxe5e.sisko.replit.dev/@fs/home/runner/workspace/SakanyMatch/node_modules/.vite/deps/chunk-DKHUMOWT.js?v=edc0a4ec:33:11
+    at https://b6f31ca8-fbe1-4a08-9d4f-16ce56411541-00-1yy8zotsoxe5e.sisko.replit.dev/@fs/home/runner/workspace/SakanyMatch/node_modules/.vite/deps/chunk-CPFL7ZFD.js?v=edc0a4ec:41:13
+    at https://b6f31ca8-fbe1-4a08-9d4f-16ce56411541-00-1yy8zotsoxe5e.sisko.replit.dev/@fs/home/runner/workspace/SakanyMatch/node_modules/.vite/deps/chunk-DKHUMOWT.js?v=edc0a4ec:52:11
+    at https://b6f31ca8-fbe1-4a08-9d4f-16ce56411541-00-1yy8zotsoxe5e.sisko.replit.dev/@fs/home/runner/workspace/SakanyMatch/node_modules/.vite/deps/chunk-DKHUMOWT.js?v=edc0a4ec:33:11
+    at https://b6f31ca8-fbe1-4a08-9d4f-16ce56411541-00-1yy8zotsoxe5e.sisko.replit.dev/@fs/home/runner/workspace/SakanyMatch/node_modules/.vite/deps/chunk-OKX5DAGM.js?v=edc0a4ec:109:15
+    at https://b6f31ca8-fbe1-4a08-9d4f-16ce56411541-00-1yy8zotsoxe5e.sisko.replit.dev/@fs/home/runner/workspace/SakanyMatch/node_modules/.vite/deps/@radix-ui_react-navigation-menu.js?v=edc0a4ec:733:13
+    at https://b6f31ca8-fbe1-4a08-9d4f-16ce56411541-00-1yy8zotsoxe5e.sisko.replit.dev/@fs/home/runner/workspace/SakanyMatch/node_modules/.vite/deps/@radix-ui_react-navigation-menu.js?v=edc0a4ec:411:13
+    at a
+    at https://b6f31ca8-fbe1-4a08-9d4f-16ce56411541-00-1yy8zotsoxe5e.sisko.replit.dev/@fs/home/runner/workspace/SakanyMatch/node_modules/.vite/deps/wouter.js?v=edc0a4ec:337:18
+    at li
+    at https://b6f31ca8-fbe1-4a08-9d4f-16ce56411541-00-1yy8zotsoxe5e.sisko.replit.dev/@fs/home/runner/workspace/SakanyMatch/node_modules/.vite/deps/chunk-CPFL7ZFD.js?v=edc0a4ec:41:13
+    at Provider (https://b6f31ca8-fbe1-4a08-9d4f-16ce56411541-00-1yy8zotsoxe5e.sisko.replit.dev/@fs/home/runner/workspace/SakanyMatch/node_modules/.vite/deps/chunk-LSQNWB54.js?v=edc0a4ec:38:15)
+    at https://b6f31ca8-fbe1-4a08-9d4f-16ce56411541-00-1yy8zotsoxe5e.sisko.replit.dev/@fs/home/runner/workspace/SakanyMatch/node_modules/.vite/deps/@radix-ui_react-navigation-menu.js?v=edc0a4ec:284:13
+    at ul
+    at https://b6f31ca8-fbe1-4a08-9d4f-16ce56411541-00-1yy8zotsoxe5e.sisko.replit.dev/@fs/home/runner/workspace/SakanyMatch/node_modules/.vite/deps/chunk-CPFL7ZFD.js?v=edc0a4ec:41:13
+    at https://b6f31ca8-fbe1-4a08-9d4f-16ce56411541-00-1yy8zotsoxe5e.sisko.replit.dev/@fs/home/runner/workspace/SakanyMatch/node_modules/.vite/deps/chunk-DKHUMOWT.js?v=edc0a4ec:52:11
+    at https://b6f31ca8-fbe1-4a08-9d4f-16ce56411541-00-1yy8zotsoxe5e.sisko.replit.dev/@fs/home/runner/workspace/SakanyMatch/node_modules/.vite/deps/chunk-DKHUMOWT.js?v=edc0a4ec:33:11
+    at https://b6f31ca8-fbe1-4a08-9d4f-16ce56411541-00-1yy8zotsoxe5e.sisko.replit.dev/@fs/home/runner/workspace/SakanyMatch/node_modules/.vite/deps/chunk-CPFL7ZFD.js?v=edc0a4ec:41:13
+    at https://b6f31ca8-fbe1-4a08-9d4f-16ce56411541-00-1yy8zotsoxe5e.sisko.replit.dev/@fs/home/runner/workspace/SakanyMatch/node_modules/.vite/deps/chunk-DKHUMOWT.js?v=edc0a4ec:52:11
+    at https://b6f31ca8-fbe1-4a08-9d4f-16ce56411541-00-1yy8zotsoxe5e.sisko.replit.dev/@fs/home/runner/workspace/SakanyMatch/node_modules/.vite/deps/chunk-DKHUMOWT.js?v=edc0a4ec:33:11
+    at https://b6f31ca8-fbe1-4a08-9d4f-16ce56411541-00-1yy8zotsoxe5e.sisko.replit.dev/@fs/home/runner/workspace/SakanyMatch/node_modules/.vite/deps/chunk-OKX5DAGM.js?v=edc0a4ec:98:15
+    at Provider (https://b6f31ca8-fbe1-4a08-9d4f-16ce56411541-00-1yy8zotsoxe5e.sisko.replit.dev/@fs/home/runner/workspace/SakanyMatch/node_modules/.vite/deps/chunk-OKX5DAGM.js?v=edc0a4ec:28:15)
+    at CollectionProvider (https://b6f31ca8-fbe1-4a08-9d4f-16ce56411541-00-1yy8zotsoxe5e.sisko.replit.dev/@fs/home/runner/workspace/SakanyMatch/node_modules/.vite/deps/chunk-OKX5DAGM.js?v=edc0a4ec:89:13)
+    at https://b6f31ca8-fbe1-4a08-9d4f-16ce56411541-00-1yy8zotsoxe5e.sisko.replit.dev/@fs/home/runner/workspace/SakanyMatch/node_modules/.vite/deps/@radix-ui_react-navigation-menu.js?v=edc0a4ec:724:13
+    at https://b6f31ca8-fbe1-4a08-9d4f-16ce56411541-00-1yy8zotsoxe5e.sisko.replit.dev/@fs/home/runner/workspace/SakanyMatch/node_modules/.vite/deps/chunk-DKHUMOWT.js?v=edc0a4ec:52:11
+    at https://b6f31ca8-fbe1-4a08-9d4f-16ce56411541-00-1yy8zotsoxe5e.sisko.replit.dev/@fs/home/runner/workspace/SakanyMatch/node_modules/.vite/deps/chunk-DKHUMOWT.js?v=edc0a4ec:33:11
+    at…
+Error in properties listener: 
+_FirebaseError {code: "failed-precondition", customData: undefined, name: "FirebaseError", toString: ƒ}
+

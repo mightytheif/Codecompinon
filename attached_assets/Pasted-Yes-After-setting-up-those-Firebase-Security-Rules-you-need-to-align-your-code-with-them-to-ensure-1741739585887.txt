@@ -1,0 +1,133 @@
+Yes! After setting up those Firebase Security Rules, you need to align your code with them to ensure everything works smoothly. I'll walk you through exactly what you need to change in your frontend/backend code, step by step.
+
+✅ What You Need to Do in Your Code
+1. Make Sure Users Are Authenticated
+Every Firestore or Storage operation requires an authenticated user, since the rules check request.auth.
+If you’re using Firebase Authentication:
+Make sure the user logs in and you keep track of their UID.
+
+typescript
+Copy
+Edit
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+
+const auth = getAuth();
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    console.log('User is signed in:', user.uid);
+  } else {
+    console.log('User is signed out');
+  }
+});
+2. When Adding a Property to Firestore
+Your rules require the property document to have an ownerId field matching the user’s uid.
+
+Example (Frontend):
+typescript
+Copy
+Edit
+import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
+
+const auth = getAuth();
+const db = getFirestore();
+
+const addProperty = async (propertyData) => {
+  const user = auth.currentUser;
+
+  if (!user) {
+    alert('You need to be signed in to add a property!');
+    return;
+  }
+
+  const property = {
+    ...propertyData,
+    ownerId: user.uid, // ✅ important! Must match Firestore rules
+    createdAt: new Date()
+  };
+
+  try {
+    const docRef = await addDoc(collection(db, 'properties'), property);
+    console.log('Property added with ID:', docRef.id);
+  } catch (error) {
+    console.error('Error adding property:', error);
+  }
+};
+✅ Make sure you always add ownerId when creating properties.
+
+3. When Uploading Property Images to Firebase Storage
+Your storage rules require:
+
+bash
+Copy
+Edit
+/user_uploads/{userId}/{fileName}
+Example (Frontend Upload Code):
+typescript
+Copy
+Edit
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { getAuth } from 'firebase/auth';
+
+const auth = getAuth();
+const storage = getStorage();
+
+const uploadImage = (file) => {
+  const user = auth.currentUser;
+
+  if (!user) {
+    alert('You need to be signed in to upload images!');
+    return;
+  }
+
+  // ✅ Match the Storage path with the rules
+  const storageRef = ref(storage, `user_uploads/${user.uid}/${file.name}`);
+
+  const uploadTask = uploadBytesResumable(storageRef, file);
+
+  uploadTask.on(
+    'state_changed',
+    (snapshot) => {
+      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      console.log(`Upload is ${progress}% done`);
+    },
+    (error) => {
+      console.error('Upload failed:', error);
+    },
+    () => {
+      getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+        console.log('File available at', downloadURL);
+        // You can save this URL in Firestore or display it
+      });
+    }
+  );
+};
+✅ Make sure the file path matches this format:
+
+pgsql
+Copy
+Edit
+user_uploads/{user.uid}/{file.name}
+4. Admin Functionality (Optional)
+If you want admins (users with @sakany.com emails or |admin in their display name) to edit/delete properties for everyone, your rules already handle this.
+But you’ll need client-side checks to show admin features if you want them (not mandatory for rules to work).
+
+✅ Summary: What You Must Do
+Task	Required?
+Authenticate users before any action	✅ Yes
+Add ownerId when creating properties	✅ Yes
+Use the correct upload path in Storage	✅ Yes
+Handle errors and auth checks client-side	✅ Highly Recommended
+Admin UI / features	Optional (backend rules already work)
+✅ Optional: Backend (Admin SDK)
+If you’re using Firebase Admin SDK on your server, it bypasses these security rules entirely.
+But for frontend and client SDKs, you must follow the rules we wrote.
+
+✅ Ready to Roll!
+Once you update:
+
+Firestore property creation (add ownerId)
+Storage upload paths (include userId/uid)
+Ensure authenticated access everywhere
+…your Firebase will work with the security rules perfectly!
+

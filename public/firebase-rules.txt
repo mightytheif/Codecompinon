@@ -1,0 +1,69 @@
+// Firestore Rules for Sakany Real Estate Application
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default rule - deny access by default
+    match /{document=**} {
+      allow read, write: if false;
+    }
+    
+    // Users collection rules
+    match /users/{userId} {
+      allow read: if true; // Allow reading user profiles
+      allow create: if request.auth != null && request.auth.uid == userId;
+      allow update: if request.auth != null && request.auth.uid == userId;
+      allow delete: if request.auth != null && 
+                     (request.auth.uid == userId || 
+                      request.auth.token.email.matches(".*@sakany.com$"));
+    }
+    
+    // Properties collection rules
+    match /properties/{propertyId} {
+      allow read: if true; // Anyone can read property listings
+      allow create: if request.auth != null; // Authenticated users can create properties
+      allow update, delete: if request.auth != null && 
+                            (resource.data.userId == request.auth.uid || 
+                             request.auth.token.email.matches(".*@sakany.com$")); // Only owner or admin can update/delete
+    }
+    
+    // Conversations collection rules
+    match /conversations/{conversationId} {
+      // Allow reading conversations where the user is a participant
+      allow read: if request.auth != null && 
+                   (resource.data.participants is list && 
+                    request.auth.uid in resource.data.participants);
+      
+      // Allow creating a new conversation if the user is a participant
+      allow create: if request.auth != null && 
+                     request.resource.data.participants is list && 
+                     request.auth.uid in request.resource.data.participants;
+                     
+      // Allow updating a conversation if the user is a participant
+      allow update: if request.auth != null && 
+                     resource.data.participants is list && 
+                     request.auth.uid in resource.data.participants;
+    }
+    
+    // Messages collection rules
+    match /messages/{messageId} {
+      // Allow reading messages from conversations the user is part of
+      allow read: if request.auth != null && 
+                   exists(/databases/$(database)/documents/conversations/$(resource.data.conversationId)) &&
+                   request.auth.uid in get(/databases/$(database)/documents/conversations/$(resource.data.conversationId)).data.participants;
+      
+      // Allow sending messages if the user is the sender and is part of the conversation
+      allow create: if request.auth != null && 
+                     request.resource.data.senderId == request.auth.uid &&
+                     exists(/databases/$(database)/documents/conversations/$(request.resource.data.conversationId)) &&
+                     request.auth.uid in get(/databases/$(database)/documents/conversations/$(request.resource.data.conversationId)).data.participants;
+                     
+      // Allow updating message read status
+      allow update: if request.auth != null && 
+                     resource.data.conversationId != null &&
+                     exists(/databases/$(database)/documents/conversations/$(resource.data.conversationId)) &&
+                     request.auth.uid in get(/databases/$(database)/documents/conversations/$(resource.data.conversationId)).data.participants &&
+                     request.resource.data.diff(resource.data).affectedKeys().hasOnly(['read']);
+    }
+  }
+}

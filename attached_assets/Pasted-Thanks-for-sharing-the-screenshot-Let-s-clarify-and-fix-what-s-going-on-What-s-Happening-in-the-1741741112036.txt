@@ -1,0 +1,108 @@
+Thanks for sharing the screenshot! Let's clarify and fix what's going on.
+
+✅ What's Happening in the Screenshot:
+The "Property Added" toast notification shows your property was added successfully.
+But then you're getting a "404 Page Not Found" error.
+The 404 message suggests:
+Did you forget to add the page to the router?
+
+This means your app tried to navigate to a route that doesn’t exist in your router setup, which is why you’re seeing the 404 page.
+
+✅ What Probably Happened:
+After adding the property, your code likely does something like:
+
+javascript
+Copy
+Edit
+navigate('/some-route');
+But /some-route doesn't exist in your router configuration, so it defaults to a 404.
+
+✅ Let's Fix It Step by Step
+Step 1: Confirm Where You Redirect After Adding a Property
+In your addProperty function or form submission handler, you might have something like:
+
+javascript
+Copy
+Edit
+navigate('/properties');
+or
+
+javascript
+Copy
+Edit
+navigate('/property/123');
+➡️ If you redirect to /properties, make sure you have a route set up for it!
+➡️ If you navigate to /, make sure your homepage route exists.
+
+Step 2: Check Your Router Setup
+Open your router file (probably App.js or App.tsx) and confirm you have a route for the path you're navigating to.
+
+Example Router (React Router v6+)
+jsx
+Copy
+Edit
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import HomePage from './pages/HomePage';
+import AddPropertyPage from './pages/AddPropertyPage';
+import NotFoundPage from './pages/NotFoundPage';
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        {/* Home page */}
+        <Route path="/" element={<HomePage />} />
+
+        {/* Add property page */}
+        <Route path="/add-property" element={<AddPropertyPage />} />
+
+        {/* Catch-all 404 */}
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+    </Router>
+  );
+}
+
+export default App;
+✅ Make sure the path you redirect to exists in the <Route path="..." />.
+
+Step 3: Example Redirect After Adding a Property
+Inside your form submission handler:
+
+javascript
+Copy
+Edit
+import { useNavigate } from 'react-router-dom';
+
+const navigate = useNavigate();
+
+// After adding property successfully
+navigate('/'); // go back to homepage
+✅ Or navigate to /properties only if you have:
+
+jsx
+Copy
+Edit
+<Route path="/properties" element={<PropertiesPage />} />
+✅ TL;DR
+You're successfully adding a property. ✅
+You're being redirected to a route that doesn't exist in your React Router config → 404. ❌
+You need to:
+Check the path you're navigating to (navigate('/something')).
+Make sure that path exists in your router (<Route path="something" />).
+✅ Example Full Flow:
+Router Setup:
+jsx
+Copy
+Edit
+<Routes>
+  <Route path="/" element={<HomePage />} />
+  <Route path="/add-property" element={<AddPropertyPage />} />
+  <Route path="/properties" element={<PropertiesListPage />} />
+  <Route path="*" element={<NotFoundPage />} />
+</Routes>
+After Add:
+javascript
+Copy
+Edit
+navigate('/properties'); // This route MUST exist

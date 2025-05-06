@@ -1,0 +1,292 @@
+ */
+/* Main layout */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  background-color: #f5f7fa;
+  color: #333;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-header {
+  background-color: #333;
+  color: #fff;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.app-header nav ul {
+  display: flex;
+  list-style: none;
+}
+
+.app-header nav ul li {
+  margin-left: 1.5rem;
+}
+
+.app-header nav ul li a {
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.app-header nav ul li a:hover {
+  color: #61dafb;
+}
+
+.app-main {
+  flex-grow: 1;
+  padding: 2rem;
+}
+
+.app-footer {
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 1rem;
+  margin-top: 2rem;
+}
+
+/* Property search container */
+.property-search-container {
+  display: flex;
+  gap: 2rem;
+}
+
+.filter-sidebar {
+  width: 300px;
+  flex-shrink: 0;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.properties-results {
+  flex-grow: 1;
+}
+
+/* Filter form */
+.property-filter-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.filter-section {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 1rem;
+}
+
+.filter-section h3 {
+  margin-bottom: 0.8rem;
+  font-size: 1rem;
+  color: #555;
+}
+
+.filter-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.filter-item {
+  flex: 1;
+}
+
+.filter-item label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.filter-item input,
+.filter-item select {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.checkbox-item {
+  display: flex;
+  align-items: center;
+  width: 48%;
+  margin-bottom: 0.5rem;
+}
+
+.checkbox-item input {
+  margin-right: 0.5rem;
+}
+
+.filter-action {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-top: 1rem;
+}
+
+.filter-button {
+  background-color: #4a89dc;
+  color: white;
+  border: none;
+  padding: 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.filter-button:hover {
+  background-color: #3b78cc;
+}
+
+.filter-reset {
+  background-color: transparent;
+  color: #666;
+  border: 1px solid #ddd;
+  padding: 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.filter-reset:hover {
+  background-color: #f5f5f5;
+}
+
+/* Property cards */
+.properties-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.property-card {
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.property-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.property-image {
+  height: 200px;
+  overflow: hidden;
+}
+
+.property-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s;
+}
+
+.property-card:hover .property-image img {
+  transform: scale(1.05);
+}
+
+.property-details {
+  padding: 1.2rem;
+}
+
+.property-title {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.property-location {
+  color: #666;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.property-price {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #4a89dc;
+  margin-bottom: 0.8rem;
+}
+
+.property-specs {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 0.8rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.property-type {
+  font-size: 0.9rem;
+  color: #666;
+  background-color: #f5f7fa;
+  display: inline-block;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  margin-top: 0.5rem;
+}
+
+.property-amenities {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.8rem;
+}
+
+.amenity-tag {
+  background-color: #e8f0fe;
+  color: #4a89dc;
+  font-size: 0.8rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+}
+
+.amenity-more {
+  color: #999;
+  font-size: 0.8rem;
+}
+
+/* Load more button */
+.load-more {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.load-more-button {
+  background-color: transparent;
+  border: 1px solid #4a89dc;
+  color: #4a89dc;
+  padding: 0.8rem 2rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.load-
